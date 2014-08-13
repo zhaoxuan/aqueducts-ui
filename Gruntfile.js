@@ -421,7 +421,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'tryfer'
   ]);
 
   grunt.registerTask('default', [
