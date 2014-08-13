@@ -3,11 +3,25 @@
 var aqueductsApp = angular.module('webApp');
 
 aqueductsApp.value('EventsApiBaseUrl', 'http://api.aqueducts.baidu.com/v1/');
-aqueductsApp.config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://api.aqueducts.baidu.com/v2/');
+aqueductsApp.config(['$routeProvider', 'RestangularProvider', '$httpProvider', 'TryferProvider', function($routeProvider, RestangularProvider, $httpProvider, TryferProvider) {
+    // RestangularProvider.setBaseUrl('http://api.aqueducts.baidu.com/v2/');
+    RestangularProvider.setBaseUrl('http://localhost:3000/v2/');
+    // FOR tryfer
+    TryferProvider.setRestkin('http://localhost:6956/v1.0/trace');
+    TryferProvider.setName('AQUI');
+    TryferProvider.setHost({
+      'ipv4': '127.0.0.1',
+      'port': 9000,
+      'service_name': 'aqueduct:ui'
+    });
+    TryferProvider.setSampleRate(1);
+
+
+
     RestangularProvider.setDefaultHeaders({
       'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
+      'Access-Control-Allow-Headers': '*'
     });
     RestangularProvider.setDefaultHttpFields({
       'withCredentials': true
@@ -18,4 +32,11 @@ aqueductsApp.config(['$routeProvider', 'RestangularProvider', function($routePro
       }
       return elem;
     });
+
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
 }]);
