@@ -1,14 +1,24 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('ProductController', ['$scope', '$routeParams', '$location','Restangular', function($scope, $routeParams, $location, Restangular, product) {
-    var product_id = $routeParams.product ; 
+aqueductsApp.controller('ProductController', ['$scope', '$routeParams', '$location','Restangular', 'Tryfer', function($scope, $routeParams, $location, Restangular, Tryfer, product) {
+
+    var headers = {};
+    var trace = Tryfer.initTrace(headers);
+    $scope.trace = trace;
+    trace.clientSend();
+
+    var product_id = $routeParams.product;
     var product = Restangular.one('products', product_id).get();
-    $scope.product = product ; 
+
+    $scope.product = product;
     var products = Restangular.all('products');
 
-    products.getList().then(function(products) {
+    products.getList({}, trace.getHeaders()).then(function(products) {
       $scope.products = products ;
+      var productsString = products.map(function(item) { return item.id; }).join(',').toString();
+      trace.record('string', 'all:products', productsString);
+      trace.clientReceive();
     });
 
     $scope.create = function(product){
