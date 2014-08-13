@@ -9,6 +9,7 @@ angular.module('webApp', [
   'ui.bootstrap',
   'ui.dashboard',
   'highcharts-ng',
+  'tryfer'
 ])
   .config(function ($routeProvider) {
     $routeProvider
