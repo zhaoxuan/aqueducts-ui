@@ -4,7 +4,8 @@ var aqueductsApp = angular.module('webApp');
 
 aqueductsApp.value('EventsApiBaseUrl', 'http://api.aqueducts.baidu.com/v1/');
 aqueductsApp.config(['$routeProvider', 'RestangularProvider', '$httpProvider', 'TryferProvider', function($routeProvider, RestangularProvider, $httpProvider, TryferProvider) {
-     RestangularProvider.setBaseUrl('http://api.aqueducts.baidu.com/v2/');
+    // RestangularProvider.setBaseUrl('http://api.aqueducts.baidu.com/v2/');
+    RestangularProvider.setBaseUrl('http://localhost:3000/v2/');
     // FOR tryfer
     TryferProvider.setRestkin('http://localhost:6956/v1.0/trace');
     TryferProvider.setName('AQUI');
@@ -14,6 +15,7 @@ aqueductsApp.config(['$routeProvider', 'RestangularProvider', '$httpProvider', '
       'service_name': 'aqueduct:ui'
     });
     TryferProvider.setSampleRate(1);
+    TryferProvider.setProduct('aqueducts');
 
 
 
